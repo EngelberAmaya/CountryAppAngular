@@ -1,10 +1,10 @@
 import { Component, input } from '@angular/core';
-import { RESTCountry } from '../../interfaces/rest-countries';
 import { CountryInterface } from '../../interfaces/country-interface';
+import { DecimalPipe } from '@angular/common';
 
 @Component({
   selector: 'app-list',
-  imports: [],
+  imports: [ DecimalPipe ],
   templateUrl: './list.html',
   styleUrl: './list.css',
 })

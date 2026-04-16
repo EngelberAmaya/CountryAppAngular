@@ -3,7 +3,7 @@ import { RouterLink, RouterLinkActive } from "@angular/router";
 
 @Component({
   selector: 'app-top-menu',
-  imports: [RouterLink,RouterLinkActive],
+  imports: [RouterLink, RouterLinkActive],
   templateUrl: './top-menu.html',
   styleUrl: './top-menu.css',
 })

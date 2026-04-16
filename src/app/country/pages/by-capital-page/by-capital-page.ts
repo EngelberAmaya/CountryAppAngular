@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { SearchInput } from "../../components/search-input/search-input";
 import { List } from '../../components/list/list';
+import { Country } from '../../services/country';
 
 @Component({
   selector: 'app-by-capital-page',
@@ -9,7 +10,12 @@ import { List } from '../../components/list/list';
   styleUrl: './by-capital-page.css',
 })
 export class ByCapitalPage {
-  onSearchByCapital(value: string) {
-    console.log(value);
+
+  countryService = inject(Country);
+
+  onSearch(value: string) {
+    this.countryService.searchByCapital(value).subscribe((countries) => {
+        console.log(countries);
+    })
   }
 }

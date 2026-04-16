@@ -17,16 +17,16 @@
           <td>{{ index + 1 }}</td>
           <td>
             <img
-              [src]="country.coatOfArmsSvg"
-              [alt]="country.name"
-              class="w-8"
+                [src]="country.coatOfArmsSvg ? country.coatOfArmsSvg : noImageUrl"
+                [alt]="country.name"
+                class="w-8"
             />
           </td>
           <td>
             <img
-              [src]="country.flagSvg"
-              [alt]="country.name"
-              class="w-10"
+                [src]="country.flagSvg ? country.flagSvg : noImageUrl"
+                [alt]="country.name"
+                class="w-10"
             />
           </td>
           <td>{{ country.name }}</td>

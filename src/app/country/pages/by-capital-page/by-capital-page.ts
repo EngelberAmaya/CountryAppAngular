@@ -18,17 +18,23 @@ export class ByCapitalPage {
 
   countryService = inject(Country);
 
-  onSearch(value: string) {
+  onSearch(query: string) {
 
     if(this.isLoading()) return;
 
     this.isLoading.set(true);
     this.isError.set(null);
 
-    this.countryService.searchByCapital(value).subscribe((countries) => {
+    this.countryService.searchByCapital(query).subscribe({
+      next: (countries) => {
         this.isLoading.set(false);
         this.countries.set(countries);
-        console.log(countries);
+      },
+      error: (err) => {
+        this.isLoading.set(false);
+        this.isError.set(err);
+        this.countries.set([]);
+      }
     })
   }
 }

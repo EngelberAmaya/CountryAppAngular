@@ -35,7 +35,21 @@ export class Country {
         delay(2000),
         catchError(error => {
           console.log('Error fetching', error);
-          return throwError(() => new Error(`No se pudo obtener el país con ese nombre: ${query}`));
+          return throwError(() => new Error(`No se pudo obtener el países con ese nombre: ${query}`));
+        })
+      )
+  }
+
+  searchCountryByAlphaCode(code: string) {
+
+    return this.http.get<RESTCountry[]>(`${API_URL}/alpha/${code}`)
+      .pipe(
+        map((restCountries) => CountryMapper.mapRestCountryArrayToCountryArray(restCountries)),
+        map((countries) => countries.at(0)),
+        delay(2000),
+        catchError(error => {
+          console.log('Error fetching', error);
+          return throwError(() => new Error(`No se pudo obtener el países con ese código: ${code}`));
         })
       )
   }

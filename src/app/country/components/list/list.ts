@@ -11,5 +11,6 @@ import { DecimalPipe } from '@angular/common';
 export class List {
 
   noImageUrl = 'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg'
-  countries = input.required<CountryInterface[]>();
+  // countries = input.required<CountryInterface[]>();
+  countries = input<CountryInterface[]>();
 }

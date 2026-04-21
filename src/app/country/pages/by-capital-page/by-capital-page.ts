@@ -1,8 +1,8 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, resource, signal } from '@angular/core';
 import { SearchInput } from "../../components/search-input/search-input";
 import { List } from '../../components/list/list';
 import { Country } from '../../services/country';
-import { CountryInterface } from '../../interfaces/country-interface';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-by-capital-page',
@@ -12,29 +12,18 @@ import { CountryInterface } from '../../interfaces/country-interface';
 })
 export class ByCapitalPage {
 
-  isLoading = signal(false);
-  isError = signal<string | null>(null);
-  countries = signal<CountryInterface[]>([]);
-
   countryService = inject(Country);
+  query = signal('');
 
-  onSearch(query: string) {
+  countryResource = resource({
+    params: () => ({ query: this.query() }),
+    loader: async({params}) => {
 
-    if(this.isLoading()) return;
+      if(!params.query) return [];
 
-    this.isLoading.set(true);
-    this.isError.set(null);
-
-    this.countryService.searchByCapital(query).subscribe({
-      next: (countries) => {
-        this.isLoading.set(false);
-        this.countries.set(countries);
-      },
-      error: (err) => {
-        this.isLoading.set(false);
-        this.isError.set(err);
-        this.countries.set([]);
-      }
-    })
-  }
+      return await firstValueFrom(
+        this.countryService.searchByCapital(params.query)
+      );
+    }
+  });
 }

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { RESTCountry } from '../interfaces/rest-countries';
-import { catchError, map, Observable, throwError } from 'rxjs';
+import { catchError, delay, map, Observable, throwError } from 'rxjs';
 import { CountryInterface } from '../interfaces/country-interface';
 import { CountryMapper } from '../mappers/country-mapper';
 
@@ -21,7 +21,7 @@ export class Country {
         map((restCountries) => CountryMapper.mapRestCountryArrayToCountryArray(restCountries)),
         catchError(error => {
           console.log('Error fetching', error);
-          return throwError(() => new Error(`No se pudo obtener países con ese query ${query}`));
+          return throwError(() => new Error(`No se pudo obtener países con esa capital: ${query}`));
         })
       )
   }
@@ -32,9 +32,10 @@ export class Country {
     return this.http.get<RESTCountry[]>(`${API_URL}/name/${query}`)
       .pipe(
         map((restCountries) => CountryMapper.mapRestCountryArrayToCountryArray(restCountries)),
+        delay(2000),
         catchError(error => {
           console.log('Error fetching', error);
-          return throwError(() => new Error(`No se pudo obtener el país con ese nombre ${query}`));
+          return throwError(() => new Error(`No se pudo obtener el país con ese nombre: ${query}`));
         })
       )
   }

@@ -12,6 +12,11 @@ import { RouterLink } from "@angular/router";
 export class List {
 
   noImageUrl = 'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg'
-  // countries = input.required<CountryInterface[]>();
   countries = input<CountryInterface[]>();
+
+  errorMessage = input<string | unknown | null>();
+  isLoading = input<boolean>(false);
+  isEmpty = input<boolean>(false);
+
+  initialMessage = input<string>();
 }

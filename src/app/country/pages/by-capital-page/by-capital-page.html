@@ -3,11 +3,11 @@
   (value)="query.set($event)"
 />
 
-@if(countryResource.error()){
-  <h3>{{ countryResource.error() }}</h3>
-}
-
-@if(countryResource.hasValue()) {
-  <app-list [countries]="countryResource.value()" />
-}
+<app-list
+  [countries]="countryResource.hasValue() ? countryResource.value() : []"
+  [errorMessage]="countryResource.error()"
+  [isEmpty]="countryResource.hasValue() ? countryResource.value().length === 0 : false"
+  [isLoading]="countryResource.isLoading()"
+  [initialMessage]="'Escribe el nombre de una capital para buscar, para ver los resultados'"
+/>
 

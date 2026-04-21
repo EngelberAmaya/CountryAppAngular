@@ -1,3 +1,13 @@
-<app-search-input [placeholder]="'Buscar por país'" />
+<app-search-input
+  placeholder="Buscar por país"
+  (value)="query.set($event)"
+/>
 
-<app-list />
+@if(countryResource.error()){
+  <h3>{{ countryResource.error() }}</h3>
+}
+
+@if(countryResource.hasValue()) {
+  <app-list [countries]="countryResource.value()" />
+}
+

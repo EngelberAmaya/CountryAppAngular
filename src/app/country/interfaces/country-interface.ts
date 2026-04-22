@@ -8,7 +8,5 @@ export interface CountryInterface {
   population: number;
   region: string;
   subRegion: string;
-  area: number;
   languages: string;
-  maps: string;
 }

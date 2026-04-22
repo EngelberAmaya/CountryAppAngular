@@ -11,8 +11,7 @@
   </button>
 
   <div class="mb-4 flex w-full max-w-3xl flex-col rounded-box bg-base-300">
-    <!-- Image -->
-    <!-- <div class="bg-[url({{ country().flagSvg }})] bg-center rounded-t-box w-full h-72"></div> -->
+
     <img
       src="{{ country().flagSvg }}"
       alt="{{ country().name }}"
@@ -46,19 +45,21 @@
 
         <div class="stat place-items-center">
           <div class="stat-title">Sub Región</div>
-          <div class="stat-value text-primary">{{ country().subRegion }}</div>
+          <div class="stat-value">{{ country().subRegion }}</div>
         </div>
 
         <div class="stat place-items-center">
           <div class="stat-title">Idioma</div>
-          <div class="stat-value">{{ country().languages }}</div>
+          <div class="stat-value text-primary">{{ country().languages }}</div>
         </div>
 
 
         <div class="stat place-items-center">
           <div class="stat-title">Escudo de armas</div>
           <div class="stat-value">
-             <img class="w-12" [alt]="country().name" [src]="country().coatOfArmsSvg" />
+             <img class="w-12" [alt]="country().name"
+                [src]="country().coatOfArmsSvg ? country().coatOfArmsSvg : noImageUrl"
+              />
           </div>
         </div>
 

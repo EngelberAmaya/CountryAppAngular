@@ -46,7 +46,7 @@ export class Country {
       .pipe(
         map((restCountries) => CountryMapper.mapRestCountryArrayToCountryArray(restCountries)),
         map((countries) => countries.at(0)),
-        delay(2000),
+        delay(1000),
         catchError(error => {
           console.log('Error fetching', error);
           return throwError(() => new Error(`No se pudo obtener el países con ese código: ${code}`));

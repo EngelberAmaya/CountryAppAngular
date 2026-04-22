@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { RESTCountry } from '../interfaces/rest-countries';
-import { catchError, delay, map, Observable, throwError } from 'rxjs';
+import { catchError, delay, map, Observable, of, tap, throwError } from 'rxjs';
 import { CountryInterface } from '../interfaces/country-interface';
 import { CountryMapper } from '../mappers/country-mapper';
 
@@ -12,13 +12,19 @@ const API_URL = 'https://restcountries.com/v3.1';
 })
 export class Country {
   private http = inject(HttpClient);
+  private queryCacheCapital = new Map<string, CountryInterface[]>();
 
   searchByCapital(query: string): Observable<CountryInterface[]> {
     query = query.toLowerCase().trim();
 
+    if(this.queryCacheCapital.has(query)) {
+      return of(this.queryCacheCapital.get(query) ?? []);
+    }
+
     return this.http.get<RESTCountry[]>(`${API_URL}/capital/${query}`)
       .pipe(
         map((restCountries) => CountryMapper.mapRestCountryArrayToCountryArray(restCountries)),
+        tap((countries) => this.queryCacheCapital.set(query, countries)),
         catchError(error => {
           console.log('Error fetching', error);
           return throwError(() => new Error(`No se pudo obtener países con esa capital: ${query}`));
@@ -32,7 +38,7 @@ export class Country {
     return this.http.get<RESTCountry[]>(`${API_URL}/name/${query}`)
       .pipe(
         map((restCountries) => CountryMapper.mapRestCountryArrayToCountryArray(restCountries)),
-        delay(2000),
+        delay(1000),
         catchError(error => {
           console.log('Error fetching', error);
           return throwError(() => new Error(`No se pudo obtener el países con ese nombre: ${query}`));
@@ -46,7 +52,7 @@ export class Country {
       .pipe(
         map((restCountries) => CountryMapper.mapRestCountryArrayToCountryArray(restCountries)),
         map((countries) => countries.at(0)),
-        delay(1000),
+        delay(500),
         catchError(error => {
           console.log('Error fetching', error);
           return throwError(() => new Error(`No se pudo obtener el países con ese código: ${code}`));

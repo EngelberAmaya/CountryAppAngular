@@ -1,4 +1,4 @@
-import { Component, input, output, signal } from '@angular/core';
+import { Component, input, linkedSignal, output } from '@angular/core';
 
 @Component({
   selector: 'app-search-input',
@@ -10,4 +10,8 @@ export class SearchInput {
 
   value = output<string>();
   placeholder = input.required<string>();
+
+  initialValue = input<string>();
+
+  inputValue = linkedSignal<string>(() => this.initialValue() || '');
 }

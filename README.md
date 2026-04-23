@@ -1,5 +1,9 @@
 # CountryApp
 
+Aplicación en Angular que muestra un listado de países usando el api de restcountries, la cual tiene servicios para filtrar por capital, por el nombre del país, por regiones o continentes. Así como también un método para mostrar información específica de país. Usando cache para preservar los resultados de las búsquedas.
+
+Angular application that displays a list of countries using the restcountries API, which includes services for filtering by capital, country name, region, or continent. It also includes a method for displaying country-specific information and uses caching to preserve search results.
+
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.0.0.
 
 ## Development server

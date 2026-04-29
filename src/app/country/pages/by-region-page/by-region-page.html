@@ -1,10 +1,10 @@
 <h1 class="text-2xl font-bold">Por región</h1>
 <h3 class="text-lg">Seleccione la región</h3>
 
-<section class="row mt-2">
+<section class="mt-2 grid w-full grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-6">
   @for (region of regions; track region) {
     <button
-      class="mr-3 btn btn-outline w-25"
+      class="btn btn-outline w-full justify-center sm:w-auto"
       (click)="selectedRegion.set(region)"
       [class.btn-primary]="selectedRegion() === region"
     >

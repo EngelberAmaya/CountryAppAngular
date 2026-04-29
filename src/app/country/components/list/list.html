@@ -1,42 +1,43 @@
-<section class="mt-5">
-  <table class="table table-md mt-2 w-full">
+<section class="mt-5 w-full">
+  <div class="mt-2 overflow-x-auto rounded-box border border-base-300">
+  <table class="table table-xs sm:table-md w-full min-w-max">
     <thead>
       <tr>
-        <th>#</th>
-        <th>Escudo de armas</th>
-        <th>Bandera</th>
-        <th>Nombre</th>
-        <th>Capital</th>
-        <th>Población</th>
-        <th></th>
+        <th class="whitespace-nowrap">#</th>
+        <th class="hidden md:table-cell whitespace-nowrap">Escudo de armas</th>
+        <th class="whitespace-nowrap">Bandera</th>
+        <th class="whitespace-nowrap">Nombre</th>
+        <th class="hidden sm:table-cell whitespace-nowrap">Capital</th>
+        <th class="whitespace-nowrap">Población</th>
+        <th class="whitespace-nowrap"></th>
       </tr>
     </thead>
     <tbody>
       @for (country of countries(); track country.cca2; let index = $index) {
         <tr>
-          <td>{{ index + 1 }}</td>
-          <td>
+          <td class="whitespace-nowrap">{{ index + 1 }}</td>
+          <td class="hidden md:table-cell">
             <img
                 [src]="country.coatOfArmsSvg ? country.coatOfArmsSvg : noImageUrl"
                 [alt]="country.name"
                 class="w-9"
             />
           </td>
-          <td>
+          <td class="whitespace-nowrap">
             <img
                 [src]="country.flagSvg ? country.flagSvg : noImageUrl"
                 [alt]="country.name"
                 class="w-10"
             />
           </td>
-          <td>{{ country.name }}</td>
-          <td>{{ country.capital }}</td>
+          <td class="min-w-40 font-medium">{{ country.name }}</td>
+          <td class="hidden sm:table-cell whitespace-nowrap">{{ country.capital }}</td>
           <td>
             <span class="badge badge-secondary">
               {{ country.population | number }}
             </span>
           </td>
-          <td>
+          <td class="whitespace-nowrap">
             <a [routerLink]="['/country/by', country.cca2]"
               class="link-primary cursor-pointer">
               Más información
@@ -47,7 +48,7 @@
 
       @if (errorMessage()) {
         <tr>
-          <td colspan="8" class="text-center">
+          <td colspan="7" class="text-center">
             <div role="alert" class="alert alert-error">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0 stroke-current" fill="none" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -60,7 +61,7 @@
 
       @if (countries()?.length === 0 && !isLoading() && !errorMessage()) {
         <tr>
-          <td colspan="8" class="text-center">
+          <td colspan="7" class="text-center">
             <div role="alert" class="alert alert-info">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="h-6 w-6 shrink-0 stroke-current">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
@@ -73,7 +74,7 @@
 
       @if (isLoading()) {
         <tr>
-          <td colspan="8" class="text-center">
+          <td colspan="7" class="text-center">
            <div role="status">
               <svg aria-hidden="true" class="inline w-8 h-8 text-neutral-tertiary animate-spin fill-brand" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
@@ -87,5 +88,6 @@
 
     </tbody>
   </table>
+  </div>
 </section>
 

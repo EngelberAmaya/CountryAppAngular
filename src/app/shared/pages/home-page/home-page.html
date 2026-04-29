@@ -1,15 +1,20 @@
 <div
-  class="hero min-h-screen"
+  class="hero min-h-screen bg-cover bg-center"
   style="background-image: url({{backgroundImage}});"
 >
   <div class="hero-overlay"></div>
-  <div class="hero-content text-neutral-content text-center">
-    <div class="max-w-md">
-      <h1 class="mb-5 text-5xl font-bold">Aplicación de Países</h1>
-      <p class="mb-5">
+  <div class="hero-content w-full px-4 py-8 text-neutral-content sm:px-6 md:px-10">
+    <div class="mx-auto w-full max-w-xl text-center">
+      <h1 class="mb-4 text-3xl font-bold leading-tight sm:text-4xl md:text-5xl">
+        Aplicación de Países
+      </h1>
+      <p class="mb-6 text-sm leading-relaxed sm:text-base md:text-lg">
         Aplicación en Angular que muestra un listado de países usando el api de restcountries, la cual tiene servicios para filtrar por capital, por el nombre del país, por regiones o continentes. Así como también un método para mostrar información específica de país. Usando cache para preservar los resultados de las búsquedas.
       </p>
-      <button routerLink="/country" class="btn btn-primary">Empezar</button>
+      <button routerLink="/country"
+        class="btn btn-primary btn-sm sm:btn-md md:btn-lg w-full sm:w-auto">
+        Empezar
+      </button>
     </div>
   </div>
 </div>

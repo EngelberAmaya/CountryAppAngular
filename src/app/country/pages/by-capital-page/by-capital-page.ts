@@ -2,7 +2,7 @@ import { Component, inject, linkedSignal } from '@angular/core';
 import { SearchInput } from "../../components/search-input/search-input";
 import { List } from '../../components/list/list';
 import { Country } from '../../services/country';
-import { of } from 'rxjs';
+import { of, tap } from 'rxjs';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -22,11 +22,19 @@ export class ByCapitalPage {
 
   query = linkedSignal(() => this.queryParam);
 
+  getEmptyMessage(): string {
+    const query = this.query().trim();
+
+    return query
+      ? `No se encontraron capitales para el término: ${query}`
+      : 'Escribe el nombre de una capital para buscar, para ver los resultados';
+  }
+
   countryResource = rxResource({
     params: () => ({ query: this.query() }),
-    stream: ({params}) => {
+    stream: ({ params }) => {
 
-      if(!params.query) return of([]);
+      if (!params.query) return of([]);
 
       this.router.navigate(['/country/by-capital'], {
         queryParams: {

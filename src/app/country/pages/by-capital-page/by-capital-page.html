@@ -4,11 +4,9 @@
   [initialValue]="query()"
 />
 
-<app-list
-  [countries]="countryResource.hasValue() ? countryResource.value() : []"
+<app-list [countries]="countryResource.hasValue() ? countryResource.value() : []"
   [errorMessage]="countryResource.error()"
   [isEmpty]="countryResource.hasValue() ? countryResource.value().length === 0 : false"
   [isLoading]="countryResource.isLoading()"
-  [initialMessage]="'Escribe el nombre de una capital para buscar, para ver los resultados'"
+  [initialMessage]="getEmptyMessage()"
 />
-

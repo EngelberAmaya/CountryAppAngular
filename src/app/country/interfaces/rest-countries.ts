@@ -1,67 +1,176 @@
 export interface RESTCountry {
-  tld:          string[];
-  cca2:         string;
-  ccn3:         string;
-  cca3:         string;
-  cioc:         string;
-  independent:  boolean;
-  status:       string;
-  unMember:     boolean;
-  idd:          Idd;
-  capital:      string[];
-  altSpellings: string[];
-  region:       string;
-  subregion:    string;
-  landlocked:   boolean;
-  borders:      string[];
-  area:         number;
-  maps:         Maps;
-  population:   number;
-  fifa:         string;
-  car:          Car;
-  timezones:    string[];
-  continents:   string[];
-  flag:         string;
-  name:         Name;
-  currencies:   Currencies;
-  languages:    Languages;
-  latlng:       number[];
-  demonyms:     Demonyms;
-  translations: { [key: string]: Translation };
-  gini:         Gini;
-  flags:        Flags;
-  coatOfArms:   CoatOfArms;
-  startOfWeek:  string;
-  capitalInfo:  CapitalInfo;
-  postalCode:   PostalCode;
+  data: Data;
 }
 
-export interface CapitalInfo {
-  latlng: number[];
+export interface Data {
+  objects: Object[];
+  meta:    Meta;
 }
 
-export interface Car {
-  signs: string[];
-  side:  string;
+export interface Meta {
+  total:      number;
+  count:      number;
+  limit:      number;
+  offset:     number;
+  more:       boolean;
+  request_id: string;
+  duration:   number;
 }
 
-export interface CoatOfArms {
-  png: string;
-  svg: string;
+export interface Object {
+  names:           Names;
+  codes:           Codes;
+  capitals:        Capital[];
+  flag:            Flag;
+  region:          string;
+  subregion:       string;
+  area:            Area;
+  assets:          any[];
+  borders:         string[];
+  calling_codes:   string[];
+  cars:            Cars;
+  classification:  Classification;
+  continents:      string[];
+  coordinates:     Coordinates;
+  currencies:      Currency[];
+  date:            DateClass;
+  demonyms:        Demonyms;
+  economy:         Economy;
+  government_type: string;
+  landlocked:      boolean;
+  languages:       Language[];
+  leaders:         Leader[];
+  links:           Links;
+  memberships:     { [key: string]: boolean };
+  number_format:   NumberFormat;
+  parent:          Parent;
+  population:      number;
+  postal_code:     PostalCode;
+  timezones:       string[];
+  tlds:            string[];
+  units:           Units;
+  uuid:            string;
+  _match:          Match[];
+  _meta:           MetaClass;
 }
 
-export interface Currencies {
-  VES: Ves;
+export interface Match {
+  path:  string;
+  value: string;
 }
 
-export interface Ves {
-  symbol: string;
+export interface MetaClass {
+  lastUpdatedTimestamp: number;
+}
+
+export interface Area {
+  kilometers: number;
+  miles:      number;
+}
+
+export interface Capital {
+  attributes:  Attributes;
+  coordinates: Coordinates;
+  name:        string;
+}
+
+export interface Attributes {
+  administrative: boolean;
+  constitutional: boolean;
+  executive:      boolean;
+  judicial:       boolean;
+  legislative:    boolean;
+  primary:        boolean;
+}
+
+export interface Coordinates {
+  lat: number;
+  lng: number;
+}
+
+export interface Cars {
+  driving_side: DrivingSide;
+  signs:        string[];
+}
+
+export enum DrivingSide {
+  Left = "left",
+  Right = "right",
+}
+
+export interface Classification {
+  dependency:      boolean;
+  dependency_type: DependencyType;
+  disputed:        boolean;
+  iso_status:      ISOStatus;
+  sovereign:       boolean;
+  un_member:       boolean;
+  un_observer:     boolean;
+}
+
+export enum DependencyType {
+  Empty = "",
+  OverseasTerritory = "overseas_territory",
+  UnincorporatedTerritory = "unincorporated_territory",
+}
+
+export enum ISOStatus {
+  Official = "official",
+}
+
+export interface Codes {
+  alpha_2: string;
+  alpha_3: string;
+  ccn3:    string;
+  cioc:    string;
+  fifa:    string;
+  fips:    string;
+  gec:     string;
+}
+
+export interface Currency {
+  code:   string;
   name:   string;
+  symbol: string;
+}
+
+export interface DateClass {
+  academic_year_start: AcademicYearStart;
+  fiscal_year_start:   FiscalYearStart;
+  start_of_week:       StartOfWeek;
+}
+
+export interface AcademicYearStart {
+  day:   number;
+  month: number;
+}
+
+export interface FiscalYearStart {
+  corporate:  Corporate;
+  government: AcademicYearStart;
+  personal:   AcademicYearStart;
+}
+
+export interface Corporate {
+  basis: Basis;
+  day:   number;
+  month: number;
+}
+
+export enum Basis {
+  Convention = "convention",
+  Default = "default",
+  Mandated = "mandated",
+}
+
+export enum StartOfWeek {
+  Monday = "monday",
+  Sunday = "sunday",
 }
 
 export interface Demonyms {
-  eng: Eng;
-  fra: Eng;
+  eng:  Eng;
+  fra?: Eng;
 }
 
 export interface Eng {
@@ -69,46 +178,119 @@ export interface Eng {
   m: string;
 }
 
-export interface Flags {
-  png: string;
-  svg: string;
-  alt: string;
+export interface Economy {
+  gini_coefficient: { [key: string]: number };
 }
 
-export interface Gini {
-  "2006": number;
+export interface Flag {
+  colors:      Colors;
+  description: string;
+  emoji:       string;
+  html_entity: string;
+  unicode:     string;
+  url_png:     string;
+  url_svg:     string;
 }
 
-export interface Idd {
-  root:     string;
-  suffixes: string[];
+export interface Colors {
+  dominant:  string;
+  palette:   Palette[];
+  prominent: string;
+  swatches:  Swatches;
 }
 
-export interface Languages {
-  spa: string;
+export interface Palette {
+  hex:        string;
+  proportion: number;
 }
 
-export interface Maps {
-  googleMaps:     string;
-  openStreetMaps: string;
+export interface Swatches {
+  dark_muted:    null | string;
+  dark_vibrant:  null | string;
+  light_muted:   null | string;
+  light_vibrant: null | string;
+  muted:         string;
+  vibrant:       null | string;
 }
 
-export interface Name {
-  common:     string;
-  official:   string;
-  nativeName: NativeName;
+export interface Language {
+  bcp47:       string;
+  iso639_1:    string;
+  iso639_2b:   string;
+  iso639_2t:   string;
+  iso639_3:    string;
+  name:        string;
+  native_name: string;
 }
 
-export interface NativeName {
-  spa: Translation;
+export interface Leader {
+  message: string;
+  sample:  string;
 }
 
-export interface Translation {
-  official: string;
+export interface Links {
+  google_maps:      string;
+  official:         string;
+  open_street_maps: string;
+  wikipedia:        string;
+}
+
+export interface Names {
+  alternates:   string[];
+  common:       string;
+  native:       { [key: string]: Native };
+  official:     string;
+  translations: { [key: string]: Native };
+}
+
+export interface Native {
   common:   string;
+  official: string;
+}
+
+export interface NumberFormat {
+  decimal_separator:   Separator;
+  thousands_separator: Separator;
+}
+
+export enum Separator {
+  Empty = ".",
+  Separator = ",",
+}
+
+export interface Parent {
+  alpha_2: Alpha2;
+  alpha_3: Alpha3;
+}
+
+export enum Alpha2 {
+  Empty = "",
+  GB = "GB",
+  Us = "US",
+}
+
+export enum Alpha3 {
+  Empty = "",
+  Gbr = "GBR",
+  Usa = "USA",
 }
 
 export interface PostalCode {
   format: string;
   regex:  string;
+}
+
+export interface Units {
+  measurement_system: MeasurementSystem;
+  temperature_scale:  TemperatureScale;
+}
+
+export enum MeasurementSystem {
+  Imperial = "imperial",
+  Metric = "metric",
+}
+
+export enum TemperatureScale {
+  Celsius = "Celsius",
+  Fahrenheit = "Fahrenheit",
 }

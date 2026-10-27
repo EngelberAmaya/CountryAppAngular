@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, computed } from '@angular/core';
 
 @Component({
   selector: 'app-footer',
@@ -7,5 +7,5 @@ import { Component } from '@angular/core';
   styleUrl: './footer.css',
 })
 export class Footer {
- year = new Date().getFullYear();
+ currentYear = computed(() => new Date().getFullYear());
 }

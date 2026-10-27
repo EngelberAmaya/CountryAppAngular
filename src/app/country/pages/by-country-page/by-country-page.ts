@@ -37,5 +37,14 @@ export class ByCountryPage {
 
       return this.countryService.searchByCountry(params.query);
     }
+
   });
+
+  getEmptyMessage(): string {
+    const query = this.query().trim();
+
+    return query
+      ? `No se encontraron paises para el término: ${query}`
+      : 'Escribe el nombre completo de un país para buscar, para ver los resultados';
+  }
 }

@@ -3,31 +3,32 @@ import { RESTCountry } from "../interfaces/rest-countries";
 
 export class CountryMapper {
 
-  static mapRestCountryToCountry(restCountry: RESTCountry): CountryInterface {
+  static mapRestCountryToCountry(restCountry: RESTCountry['data']['objects'][0]): CountryInterface {
 
-    const spanishName = restCountry.translations?.['spa']?.common
-      ?? restCountry.name?.common
+    const spanishName = restCountry.names?.translations?.['spa']?.common
+      ?? restCountry.names?.common
       ?? 'No Spanish name';
 
-    const spanishLanguage = restCountry.languages?.['spa']
-      ?? Object.values(restCountry.languages ?? {})[0]
+    const spanishLanguage = restCountry.languages?.find(language => language.bcp47 === 'spa')?.name
+      ?? restCountry.languages?.[0]?.name
       ?? 'No language available';
 
     return {
-      cca2: restCountry.cca2,
-      cca3: restCountry.cca3,
+      cca2: restCountry.codes.alpha_2,
+      cca3: restCountry.codes.alpha_3,
       languages: spanishLanguage,
-      coatOfArmsSvg: restCountry.coatOfArms?.svg ?? '',
-      flagSvg: restCountry.flags?.svg ?? '',
+      coatOfArmsSvg: restCountry.flag.url_png ?? '',
+      flagSvg: restCountry.flag.url_svg ?? '',
       name: spanishName,
-      capital: restCountry.capital?.length > 0 ? restCountry.capital.join(', ') : 'No capital',
+      capital: restCountry.capitals.filter((capital) => capital.attributes.primary)
+        .map((capital) => capital.name).join(', ') || 'No capital',
       population: restCountry.population,
       region: restCountry.region ?? 'No region',
       subRegion: restCountry.subregion ?? 'No subregion'
     }
   }
 
-  static mapRestCountryArrayToCountryArray(restCountries: RESTCountry[]): CountryInterface[] {
-    return restCountries.map(this.mapRestCountryToCountry);
+  static mapRestCountryArrayToCountryArray(restCountry: RESTCountry): CountryInterface[] {
+    return restCountry.data.objects.map((obj) => CountryMapper.mapRestCountryToCountry(obj));
   }
 }

@@ -4,7 +4,6 @@
     <thead>
       <tr>
         <th class="whitespace-nowrap">#</th>
-        <th class="hidden md:table-cell whitespace-nowrap">Escudo de armas</th>
         <th class="whitespace-nowrap">Bandera</th>
         <th class="whitespace-nowrap">Nombre</th>
         <th class="hidden sm:table-cell whitespace-nowrap">Capital</th>
@@ -16,13 +15,6 @@
       @for (country of countries(); track country.cca2; let index = $index) {
         <tr>
           <td class="whitespace-nowrap">{{ index + 1 }}</td>
-          <td class="hidden md:table-cell">
-            <img
-                [src]="country.coatOfArmsSvg ? country.coatOfArmsSvg : noImageUrl"
-                [alt]="country.name"
-                class="w-9"
-            />
-          </td>
           <td class="whitespace-nowrap">
             <img
                 [src]="country.flagSvg ? country.flagSvg : noImageUrl"

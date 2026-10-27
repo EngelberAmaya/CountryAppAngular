@@ -5,8 +5,7 @@ import { catchError, delay, map, Observable, of, tap, throwError } from 'rxjs';
 import { CountryInterface } from '../interfaces/country-interface';
 import { CountryMapper } from '../mappers/country-mapper';
 import { Region } from '../interfaces/region.type';
-
-const API_URL = 'https://restcountries.com/v3.1';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -21,11 +20,13 @@ export class Country {
   searchByCapital(query: string): Observable<CountryInterface[]> {
     query = query.toLowerCase().trim();
 
-    if(this.queryCacheCapital.has(query)) {
+    if (this.queryCacheCapital.has(query)) {
       return of(this.queryCacheCapital.get(query) ?? []);
     }
 
-    return this.http.get<RESTCountry[]>(`${API_URL}/capital/${query}`)
+    return this.http.get<RESTCountry>(`${environment.API_URL}/capitals?q=${query}`,
+      { headers: { 'Authorization': `Bearer ${environment.API_KEY}` } }
+    )
       .pipe(
         map((restCountries) => CountryMapper.mapRestCountryArrayToCountryArray(restCountries)),
         tap((countries) => this.queryCacheCapital.set(query, countries)),
@@ -39,50 +40,57 @@ export class Country {
   searchByCountry(query: string): Observable<CountryInterface[]> {
     query = query.toLowerCase().trim();
 
-    if(this.queryCacheCountry.has(query)) {
+    if (this.queryCacheCountry.has(query)) {
       return of(this.queryCacheCountry.get(query) ?? []);
     }
 
-    return this.http.get<RESTCountry[]>(`${API_URL}/name/${query}`)
+    return this.http.get<RESTCountry>(`${environment.API_URL}/names.common/${query}`,
+      { headers: { 'Authorization': `Bearer ${environment.API_KEY}` } }
+    )
       .pipe(
         map((restCountries) => CountryMapper.mapRestCountryArrayToCountryArray(restCountries)),
         tap((countries) => this.queryCacheCountry.set(query, countries)),
         delay(1000),
         catchError(error => {
           console.log('Error fetching', error);
-          return throwError(() => new Error(`No se pudo obtener el países con ese nombre: ${query}`));
+          return throwError(() => new Error(`No se pudo obtener el país con ese nombre: ${query}`));
         })
       )
   }
 
   searchCountryByAlphaCode(code: string) {
 
-    return this.http.get<RESTCountry[]>(`${API_URL}/alpha/${code}`)
+    return this.http.get<RESTCountry>(`${environment.API_URL}/codes.alpha_2/${code}`,
+      { headers: { 'Authorization': `Bearer ${environment.API_KEY}` } }
+    )
       .pipe(
         map((restCountries) => CountryMapper.mapRestCountryArrayToCountryArray(restCountries)),
         map((countries) => countries.at(0)),
         delay(500),
         catchError(error => {
           console.log('Error fetching', error);
-          return throwError(() => new Error(`No se pudo obtener el países con ese código: ${code}`));
+          return throwError(() => new Error(`No se pudo obtener el país con ese código: ${code}`));
         })
       )
   }
 
   searchByRegion(region: Region) {
 
-    if(this.queryCacheRegion.has(region)) {
+    if (this.queryCacheRegion.has(region)) {
       return of(this.queryCacheRegion.get(region) ?? []);
     }
 
-    return this.http.get<RESTCountry[]>(`${API_URL}/region/${region}`)
+    return this.http.get<RESTCountry>(`${environment.API_URL}?region=${region}`,
+      { headers: { 'Authorization': `Bearer ${environment.API_KEY}` } }
+    )
       .pipe(
         map((restCountries) => CountryMapper.mapRestCountryArrayToCountryArray(restCountries)),
         tap((countries) => this.queryCacheRegion.set(region, countries)),
         catchError(error => {
           console.log('Error fetching', error);
-          return throwError(() => new Error(`No se pudo obtener el países con esa región: ${region}`));
+          return throwError(() => new Error(`No se pudo obtener los países con la región: ${region}`));
         })
       )
   }
+
 }
